@@ -1,0 +1,42 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/syntax.html
+name: NSI
+file_extensions:
+  - nsi
+  - nsia
+scope: source.nsi
+contexts:
+  main:
+    # Strings
+    - match: '"'
+      scope: punctuation.definition.string.begin.nsi
+      push: double_quoted_string
+
+    # Comments
+    - match: '#'
+      scope: punctuation.definition.comment.nsi
+      push: line_comment
+
+    # Keywords
+    - match: '\b(Connect|Create|Evaluate|SetAttribute|SetAttributeAtTime|RenderControl)\b'
+      scope: keyword.control.nsi
+
+    # Numbers
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.nsi
+    - match: '\b[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\b'
+      scope: constant.numeric.nsi
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.nsi
+    - match: '\\.'
+      scope: constant.character.escape.nsi
+    - match: '"'
+      scope: punctuation.definition.string.end.nsi
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.nsi
+    - match: $
+      pop: true
